@@ -75,15 +75,14 @@ Afficher la moyenne des nombres entrés
 '''
 
 nombre = input("Entrer un nombre : ")
-compteur1 = 0
-compteur2 = 0
+compteur = 0
+somme = 0
 while nombre != "stop":
-    compteur1 += 1
-    compteur2  += int(nombre) 
-    moyenne = compteur2 / compteur1
+    compteur += 1
+    somme  += int(nombre) 
+    moyenne = somme / compteur
     nombre = input("Entrer un nombre : ")
-
-if (compteur1 == 0) :
+if compteur == 0 :
     print('Vous avez quitter le programme !')
 else :
     print('La moyenne des nombre entrée est : ', moyenne)

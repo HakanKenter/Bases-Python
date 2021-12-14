@@ -17,16 +17,15 @@ le nombre.
 '''
 
 randomNumber = random.randint(1, 100)
-print(randomNumber)
-devineNombre = int(input("Deviner le nombre : "))
+testNumber = 0
 compteur = 0
-while devineNombre != randomNumber :
+while testNumber != randomNumber :
+    testNumber = int(input("Deviner le nombre : "))
     compteur += 1
-    if devineNombre > randomNumber :
+    if testNumber > randomNumber :
         print("Plus petit")
-        devineNombre = int(input("Deviner le nombre : "))
-    elif devineNombre < randomNumber :
+    elif testNumber < randomNumber :
         print("Plus grand")
-        devineNombre = int(input("Deviner le nombre : "))
-        
-print("Il ta fallu",compteur,"tentatives pour réussir !")
+    else :
+        print("Il ta fallu",compteur,"tentatives pour réussir !")
+

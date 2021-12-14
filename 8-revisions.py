@@ -8,7 +8,7 @@ Si on est samedi ou dimanche, afficher "Bon weekend !"
 Sinon, afficher "Vivement le weekend !"
 '''
 
-# jourSemaine = input("Quel est le jour de la semaine ? ")
+# jourSemaine = input("Quel est le jour de la semaine ? ").lower()
  
 # if jourSemaine == "Samedi" or jourSemaine == "Dimanche":
 #     print("Bon weekend !")
@@ -26,15 +26,9 @@ Demander quel mois on est. Si on est entre
 septembre et décembre, afficher "fin d'année"
 '''
 
-# moisQ = input("Quel est le mois actuelle ? ")
-# mois = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
-# for i in mois:       
-#     if mois.index(moisQ) >= 8 :
-#         print("Fin d'année !")
-#         exit()
-#     else :
-#         moisQ = input("Quel est le mois actuelle ? ")
-# print()
+# mois = input("Quel est le mois actuelle ? ").lower()
+# if "bre" in mois:
+#     print("fin d'année")
 
 
 '''_________________________________________________________________________________________________________________________________________'''
@@ -49,13 +43,13 @@ Si elle est entre 10 et 15, afficher "passage"
 Si elle est entre 16 et 20, afficher "Bravo !"
 '''
 
-# noteQ = int(input("Donner une note sur 20 :"))
+# note = int(input("Donner une note sur 20 :"))
 
-# if noteQ < 0 or noteQ > 20 :
+# if note < 0 or note > 20 :
 #     print('Impossible')
-# elif noteQ >= 0 and noteQ <= 9 :
+# elif note < 10:
 #     print('Rattrapage')
-# elif noteQ >= 10 and noteQ <= 15 :
+# elif note < 16 :
 #     print('Passage')
 # else :
 #     print('Bravo !')
@@ -71,12 +65,12 @@ azerty, redemander le mot de passe.
 Une fois que le mot de passe est bon, afficher "Bienvenue"
 '''
 
-# mdpQ = input("Choisissez un mot de passe : ")
-
-# while mdpQ != "azerty":
-#     mdpQ = input("Choisissez un mot de passe : ")
+# mdp = ""
+# while mdp != "azerty":
+#     mdp = input("Choisissez un mot de passe : ")
 # print('Bienvenue')
 # print()
+
 
 '''_________________________________________________________________________________________________________________________________________'''
 
@@ -99,6 +93,16 @@ S'il n'a pas entré le bon mot de passe, afficher
 # print('Votre compte est bloqué')
 # print()
 
+# mdp=""
+# i=0
+# while mdp != "azerty" and i<3:
+#     mdp = input("Mot de passe ?")
+#     i+=1
+# if mdp == "azerty":
+#     print("Bienvenue")
+# else:
+#     print("Votre compte est bloqué")
+
 
 '''_________________________________________________________________________________________________________________________________________'''
 
@@ -111,3 +115,10 @@ Afficher les nombres 10, 100, 1000, 10000, etc. jusqu'à
 
 # for i in range(1, 10):
 #     print(10**i)
+
+# alternative
+nombre="1"
+for i in range(10):
+    nombre+="0"
+    print(nombre)
+

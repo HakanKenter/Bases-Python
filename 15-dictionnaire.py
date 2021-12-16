@@ -8,22 +8,22 @@ repertoire = {
     "Pompiers":"18",
 }
 
-# print(repertoire)
+print(repertoire)
 
-# #On accàde aux valeurs via les clés
-# print(repertoire["Toto"])
+#On accàde aux valeurs via les clés
+print(repertoire["Toto"])
 
-# #On peut modifier un élément
-# repertoire["Toto"] = "0717548652"
-# print(repertoire["Toto"])
+#On peut modifier un élément
+repertoire["Toto"] = "0717548652"
+print(repertoire["Toto"])
 
-# #Si la clé n'existe pas, elle est créée
-# #et la valeur donnée après le = lui est associée
-# repertoire["Maman"] = "0535458752"
-# print(repertoire)
+#Si la clé n'existe pas, elle est créée
+#et la valeur donnée après le = lui est associée
+repertoire["Maman"] = "0535458752"
+print(repertoire)
 
-#Pour parcourir un dictionnaire
-# for cle in repertoire:
+# Pour parcourir un dictionnaire
+for cle in repertoire:
 #     print(cle, repertoire[cle])
 
 
@@ -37,19 +37,18 @@ des noms et les valeurs sont des notes (int)
 Puis calculer et afficher la moyenne de la classe
 '''
 
-# notes = {
-#     "Thibaut":20,
-#     "Toto":15,
-#     "Bob":2,
-#     "Pompiers":13,
-# }
+notes = {
+    "Thibaut":20,
+    "Toto":15,
+    "Bob":2,
+    "Pompiers":13,
+}
 
-# somme = 0
-# for eleve in notes:
-#     tour += 1
-#     somme += notes[eleve]
-# moyenne = somme / len(notes)
-# print("moyenne :",moyenne)
+somme = 0
+for eleve in notes:
+    somme += notes[eleve]
+moyenne = somme / len(notes)
+print("moyenne :",moyenne)
 
 
 '''_________________________________________________________________________________________________________________________________________'''
@@ -64,19 +63,19 @@ les capitales)
 On s'arrête au mot "stop"
 '''
 
-# pays_capitale = {}
-# entree_pays = ""
-# entree_ville = ""
+pays_capitale = {}
+entree_pays = ""
+entree_ville = ""
 
-# while entree_pays != "stop":
-#     entree_pays = input("Entrer un Pays : ")
-#     if entree_pays != "stop":
-#         entree_ville = input("Entre une ville : ")
-#         pays_capitale[entree_pays] = entree_ville
+while entree_pays != "stop":
+    entree_pays = input("Entrer un Pays : ")
+    if entree_pays != "stop":
+        entree_ville = input("Entre une ville : ")
+        pays_capitale[entree_pays] = entree_ville
 
-# print(pays_capitale)
+print(pays_capitale)
 
-#Alternative avec une seul comparaison
+# Alternative avec une seul comparaison
 # entree_pays = input("Entrer un Pays : ")
 # while entree_pays != "stop":
 #     entree_ville = input("Entre une ville : ")

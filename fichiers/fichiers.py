@@ -218,7 +218,7 @@ def test_id():
     else :
         label.config(text="Ajouter le nouveau compte")
         idmdp[id] = usermdp
-        with open("dictionnaireAjout.txt","w") as fichier:
+        with open("dictionnaireAjout.txt","a") as fichier:
             fichier.write(json.dumps(idmdp))
 
 bouton = tk.Button(fenetre, text="Créer un compte",command=test_id)

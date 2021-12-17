@@ -23,8 +23,6 @@ jusqu'à 4 rois
 #alternative avec des compréhensions de listes
 # les compréhension de lsite permettent de fabriquer des liste facilement
 paquet = 4*([str(j) for j in range(2,11)] + ["V","D","R","A"])
-# print(paquet)
-
 
 '''
 Exercice 
@@ -32,31 +30,6 @@ Le casino commence par se distribuer deux cartes et en distribue deux autres
 au joueur
 Tirer 2 cartes au hazard pour le casino et 2 pour le joueur et afficher les cartes
 '''
-
-# import random
-
-# nombre_casino = []
-# nombre_joueur = []
-# def tirage(casino, joueur):
-#     for i in range(casino):
-#         cartes1 = random.choice(paquet)
-#         nombre_casino.append(cartes1)
-#         paquet.remove(cartes1)
-    
-#     for j in range(joueur):
-#         cartes2 = random.choice(paquet)
-#         nombre_joueur.append(cartes2)
-#         paquet.remove(cartes2)
-
-
-# tirage(2,2)
-# print(nombre_joueur)
-# print(nombre_casino)
-
-# print()
-# print(paquet)
-
-#alternative
 
 import random as rd
 
@@ -108,11 +81,16 @@ def score(main):
         if carte in 'VDR':
             resultat += 10
         elif carte == "A":
-            resultat += 11
+            #par défault tout les as sont comptés comme 1
+            resultat += 1 
         else: resultat += int(carte)
+    #Si j'ai un as et que je peux me permettre de le compte
+    #comme 11 sans dépasser 21, je le fais,
+    if "A" in main and resultat<=11:
+        resultat+=10
     return resultat
-
-
+# print(main_casino)
+# print(score(main_casino))
 
 '''
 Exercice
@@ -124,43 +102,83 @@ Sinon, le joueur a 21 points (natural blackjack),
 il a gagné.
 Sinon, la partie continue
 '''
-score_casino=score(main_casino)
-score_joueur=score(main_joueur)
 
 
-if score_casino == 21 and score_joueur == 21:
-    print("Égalité !")
-elif score_casino == 21:
-    print("Vous avez a perdu !")
-elif score_joueur == 21:
-    print("natural blackjack ! Le casino a perdu !")
-else:
-    reponse = input('Voulez-vous tirer un autre carte (hit) ou arrêter (stand) ?')
-    while reponse != "stand":
-        if reponse != "hit":
-            print("Commande invalide.")
-        else:
-            main_joueur.append(tirage())
-            print("Joueur :",main_joueur)
-            score_joueur = score(main_joueur)
-            print("Votre score :",score_joueur)
-            if score_joueur > 21:
-                print('Vous avez perdu !')
-                break #quitter immédiatement la boucle
+
+
+def jeu():
+    score_casino=score(main_casino)
+    score_joueur=score(main_joueur)
+    print(main_casino)
+    print(score(main_casino))
+    print("La première carte du casino est :",main_casino[0])
+
+    if score_casino == 21 and score_joueur == 21:
+        print("Égalité !")
+    elif score_casino == 21:
+        print("Vous avez a perdu !")
+    elif score_joueur == 21:
+        print("natural blackjack ! Le casino a perdu !")
+    else:
         reponse = input('Voulez-vous tirer un autre carte (hit) ou arrêter (stand) ?')
-    if score_joueur <= 21:
-        #le casino joue
-        while score_casino < 17:
-            main_casino.append(tirage())
-            score_casino=score(main_casino)
-            print("Casino :",main_casino)
-        if score_casino > 21 or score_joueur > score_casino:
-            print("Vous avez gagné !")
-        elif score_joueur == score_casino:
-            print("Égalité")
-        else:
-            print("Vous avez perdu !")
+        while reponse != "stand":
+            if reponse != "hit":
+                print("Commande invalide.")
+            else:
+                main_joueur.append(tirage())
+                print("Joueur :",main_joueur)
+                score_joueur = score(main_joueur)
+                print("Votre score :",score_joueur)
+                if score_joueur > 21:
+                        print('Vous avez perdu !')
+                        break #quitter immédiatement la boucle
+            reponse = input('Voulez-vous tirer un autre carte (hit) ou arrêter (stand) ?')
+        if score_joueur <= 21:
+            #le casino joue
+            print("Score du casino :",main_casino)
+            if score_casino == 21:
+                if score_joueur == 21 and len(main_joueur) == 2:
+                    print("Égalité")
+                else:
+                    print("Vous avez perdu")
+            elif score_joueur == 21 and len(main_joueur)==2:
+                print('Vous avez gagné')
+            while score_casino < 17:
+                main_casino.append(tirage())
+                score_casino=score(main_casino)
+                print("Casino :",main_casino)
+            if score_casino > 21 or score_joueur > score_casino:
+                print("Vous avez gagné !")
+            elif score_joueur == score_casino:
+                print("Égalité")
+            else:
+                print("Vous avez perdu !")
 
+#Les jetons du joueur
+jeton_joueur = 1000
+mise_joueur = ""
+def mise():
+    global jeton_joueur, mise_joueur, rejouer
+    mise_joueur = int(input("Combien voulez-vous miser ?"))
+    while jeton_joueur > mise_joueur:
+        jeu()
+    else: 
+        print("Vos jetons sont insuffisants..")    
+    
+# if jeton_joueur > mise_joueur:
+#     jeu()
+# else :
+#     print("Vous n'avez pas assez de jetons")
+#     mise_joueur = int(input(" vCombien voulez-vous miser ?"))
+
+mise()
+rejouer = ""
+while rejouer != "non":
+    if rejouer == "oui":
+        jeu()
+    else :
+        print('Commande inconnu !')
+    rejouer = input("Voulez-vous rejouer ?")
 
 '''
 Sinon, on demande au joueur s'il veut tirer une autre carte 
@@ -201,5 +219,22 @@ Modifier la fonction score pour prendre en compte cette
 règle.
 '''
 
+'''_________________________________________________________________________________________________________________________________________'''
 
+'''
+Exercice 
+Faire en sorte qu'on puisse rejouer une partie temps qu'on en a envie
+'''
+
+'''_________________________________________________________________________________________________________________________________________'''
+
+'''
+Exercice
+Donnez 1000 jetons au joueur au début du programme 
+Ensuite, à chaque début de partie, le joueur indique
+combien il veut miser.
+Vérifier qu'il a assez de jetons et, à la fin de la partie, rendez-lui sa mise
+s'il a fait égalité et doublez sa mise
+s'il a gagné.
+'''
 

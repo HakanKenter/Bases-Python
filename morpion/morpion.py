@@ -7,22 +7,21 @@ fenetre = tk.Tk()
 label1 = tk.Label(fenetre, text="Au tour du rond")
 label1.grid()
 
-
 taille_case = 100 #taille d'une case de la grille
 canvas = tk.Canvas(fenetre,width=3*taille_case,height=3*taille_case,background="white")
 
 canvas.grid()
 #premiere ligne verticale
-canvas.create_line(taille_case,0,taille_case,3*taille_case,width=3)
+# canvas.create_line(taille_case,0,taille_case,3*taille_case,width=3)
 
-#deuxième ligne verticale
-canvas.create_line(2*taille_case,0,2*taille_case,3*taille_case,width=3)
+# #deuxième ligne verticale
+# canvas.create_line(2*taille_case,0,2*taille_case,3*taille_case,width=3)
 
-#première ligne horizontale
-canvas.create_line(0,taille_case,3*taille_case,taille_case,width=3)
+# #première ligne horizontale
+# canvas.create_line(0,taille_case,3*taille_case,taille_case,width=3)
 
-#deuxième ligne horizontale
-canvas.create_line(0,2*taille_case,3*taille_case,2*taille_case,width=3)
+# #deuxième ligne horizontale
+# canvas.create_line(0,2*taille_case,3*taille_case,2*taille_case,width=3)
 
 marge=10 #marge utilisée pour éviter que les croix
 # et les ronds touchent le bord des cases
@@ -36,10 +35,10 @@ def dessine_croix(ligne,colonne):
     y=ligne*taille_case
     x=colonne*taille_case
 
-    canvas.create_line(x+marge,y+marge,x+taille_case-marge,y+taille_case-marge,width=3,fill="blue")
-    canvas.create_line(x+marge,y+taille_case-marge,x+taille_case-marge,y+marge,width=3,fill="blue")
+    canvas.create_line(x+marge,y+marge,x+taille_case-marge,y+taille_case-marge,width=3,fill="blue",tag="cross")
+    canvas.create_line(x+marge,y+taille_case-marge,x+taille_case-marge,y+marge,width=3,fill="blue",tag="cross")
 
-dessine_croix(2,0)
+# dessine_croix(2,0)
 
 def dessine_cercle(ligne,colonne):
     #coordonées du point en haut à gauche 
@@ -47,10 +46,10 @@ def dessine_cercle(ligne,colonne):
     y=ligne*taille_case
     x=colonne*taille_case
 
-    canvas.create_oval(x+marge,y+marge,x+taille_case-marge,y+taille_case-marge,width=3,fill="blue")
-    canvas.create_oval(x+marge,y+taille_case-marge,x+taille_case-marge,y+marge,width=3,fill="blue")
+    canvas.create_oval(x+marge,y+marge,x+taille_case-marge,y+taille_case-marge,width=3,fill="blue",tag="circl")
+    canvas.create_oval(x+marge,y+taille_case-marge,x+taille_case-marge,y+marge,width=3,fill="blue",tag="circl")
 
-dessine_cercle(1,0)
+# dessine_cercle(1,0)
 
 #fonction qui prend en paramètre des coordonnées x,y
 #qui représente le pixel où on a cliqué
@@ -72,7 +71,6 @@ def case(x,y):
     else:
         colonne=2
     return (ligne, colonne)
-
 #alternative plus courte
 # def case2(x,y):
 #     # "//" prend la divison entière et ignore les virgule et ce qu'il y a après
@@ -91,6 +89,7 @@ Exercice
 Faire en sorte qu'on alterne entre coix et rond
 '''
 choix=True 
+nb_tour=0
 #liste 2D qui représente l'état de la grille
 #à un instant donné
 # 0 représente une case vide
@@ -98,28 +97,66 @@ choix=True
 # 2 représente un rond
 grille=[[0,0,0], [0,0,0], [0,0,0]]
 
+'''
+fonction qui prend en paramètre la case où le 
+joueur actuel vient de jouer et qui teste si ce
+joueur a aligné trois symboles
+'''
+def alignement(ligne, colonne):
+    #On teste s'il y a un alignement horizontal
+
+    if grille[ligne][0] == grille[ligne][1] == grille[ligne][2]:
+        return True
+
+    if grille[0][colonne] == grille[1][colonne] == grille[2][colonne]:
+        return True
+    
+    if grille[0][0] == grille[1][1] == grille[2][2] != 0:
+        return True
+    
+    if grille[2][0] == grille[1][1] == grille[0][2] != 0:
+        return True
+    
+
+    #On test s'il y a un alignement vertical
+    #On test s'il y a un alignement diagonal
+    # else :
+    return False
+
 def clic(event):
-    global choix
+    global choix, nb_tour
     #on détermine dans quelle case le joueur a cliqué
     ligne,colonne=case(event.x,event.y)
     #on teste si la case est vide
     if grille[ligne][colonne] == 0:
+        nb_tour+=1
         if choix:
             dessine_croix(ligne,colonne)
             # on indique que la grille est occupé
             # par une croix
             grille[ligne][colonne] = 1
-            choix = False
-            label1.config(text="Au tour du cercle")
+            if alignement(ligne,colonne):
+                #le joueur croix a gagné
+                label1.config(text="Bravo ! Le joueur croix a gagné !")
+                canvas.unbind("<Button-1>")
+            elif nb_tour == 9:
+                label1.config(text="Math nul !")
+                canvas.unbind("<Button-1>")
+            else :
+                choix = False
+                label1.config(text="Au tour du cercle")
         else:
             choix = dessine_cercle(ligne,colonne)
             # on indique que la grille est occupé
             # par une croix
             grille[ligne][colonne] = 2
-            choix = True
-            label1.config(text="Au tour de la croix")
-
-
+            if alignement(ligne,colonne):
+                #le joueur croix a gagné
+                label1.config(text="Bravo ! Le joueur rond a gagné !")
+                canvas.unbind("<Button-1>")
+            else :
+                choix = True
+                label1.config(text="Au tour de la croix")
 canvas.bind("<Button-1>",clic)
 
 '''
@@ -136,6 +173,46 @@ Exercice
 Créer un label sous le canvas
 Qui indique si c'est au tour du joueur croix ou rond
 '''
+
+'''
+Exercice 
+Ajouter un bouton "Nouvelle partie"
+Qui permet de relancer un nouvelle partie
+Indice : pour effacer le contenu d'un canva,
+on peut utiliser l'instruction canva.delete("all")
+'''
+
+def nouveau():
+    global grille
+    global choix
+    global nb_tour
+    canvas.delete("all")
+    #premiere ligne verticale
+    canvas.create_line(taille_case,0,taille_case,3*taille_case,width=3)
+    #deuxième ligne verticale
+    canvas.create_line(2*taille_case,0,2*taille_case,3*taille_case,width=3)
+    #première ligne horizontale
+    canvas.create_line(0,taille_case,3*taille_case,taille_case,width=3)
+    #deuxième ligne horizontale
+    canvas.create_line(0,2*taille_case,3*taille_case,2*taille_case,width=3)
+    #réinitialisation de toutes laes variables concernées
+    choix=True 
+    nb_tour=0
+
+    #liste 2D qui représente l'état de la grille
+    #à un instant donné
+    # 0 représente une case vide
+    # 1 reprénsente une croix 
+    # 2 représente un rond
+    grille=[[0,0,0], [0,0,0], [0,0,0]]
+    #re-permission du clic
+    canvas.bind("<Button-1>",clic)
+
+
+
+nouvelle_partie = tk.Button(fenetre, text="Nouvelle Partie",command=nouveau)
+nouvelle_partie.grid()
+
 
 
 
